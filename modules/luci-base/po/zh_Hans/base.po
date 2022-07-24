@@ -10436,3 +10436,6 @@ msgstr "要用指定域 IP 填充的 IP 集列表。"
 
 msgid "List of domains to force to an IP address."
 msgstr "此列表将域名强制指向某个 IP 地址。"
+
+msgid "NAS"
+msgstr "网络存储"

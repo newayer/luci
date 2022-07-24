@@ -3,6 +3,9 @@
 -- Licensed to the public under the Apache License 2.0.
 
 module("luci.controller.admin.uci", package.seeall)
+function index()
+        entry({"admin", "nas"}, firstchild(), _("NAS"), 44).index = true
+end
 
 local function ubus_state_to_http(errstr)
 	local map = {
