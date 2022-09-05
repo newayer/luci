@@ -214,6 +214,7 @@ local methods = {
 			rv.firewall4     = fs.access("/sbin/fw4")
 			rv.opkg          = fs.access("/bin/opkg")
 			rv.offloading    = fs.access("/sys/module/xt_FLOWOFFLOAD/refcnt") or fs.access("/sys/module/nft_flow_offload/refcnt")
+			rv.fullcone      = fs.access("/sys/module/nft_fullcone/refcnt")
 			rv.br2684ctl     = fs.access("/usr/sbin/br2684ctl")
 			rv.swconfig      = fs.access("/sbin/swconfig")
 			rv.odhcpd        = fs.access("/usr/sbin/odhcpd")
@@ -441,6 +442,16 @@ local methods = {
 		end
 	},
 
+	setUpgrade = {
+		args = { url = "http://192.168.2.1/firmware.bin" },
+		call = function(args)
+			local util = require "luci.util"
+			return {
+				result = (os.execute("/sbin/reboot >/dev/null 2>&1") == 0)
+			}
+		end
+	},
+    
 	setPassword = {
 		args = { username = "root", password = "password" },
 		call = function(args)
@@ -454,7 +465,7 @@ local methods = {
 			}
 		end
 	},
-
+	
 	getBlockDevices = {
 		call = function()
 			local fs = require "nixio.fs"
@@ -496,8 +507,19 @@ local methods = {
 	},
 
 	setBlockDetect = {
-		call = function()
-			return { result = (os.execute("/sbin/block detect > /etc/config/fstab") == 0) }
+		args = { url = "http://192.168.2.1/firmware.bin", mode = "1"},
+		call = function(args)
+			local util = require "luci.util"
+			if args.mode == "0" then
+					return {result = (os.execute("/usr/bin/oem_upgrade %s >/dev/null 2>&1" %{
+						luci.util.shellquote(args.url)
+					}) == 0)}
+			else
+					return {result = (os.execute("/usr/bin/power_control %s >/dev/null 2>&1" %{
+						luci.util.shellquote(args.url)
+					}) == 0)}
+			end
+			
 		end
 	},
 

@@ -186,5 +186,20 @@
 				"system": [ "reboot" ]
 			}
 		}
+	},
+	"luci-mod-system-fota": {
+		"description": "Allow rebooting the device",
+		"write": {
+			"file": {
+				"/usr/bin/oem_upgrade": [ "exec" ],
+				"/tmp/upgrade": [ "write" ],
+				"/sbin/reboot": [ "exec" ]
+			},
+			"ubus": {
+				"file": [ "exec" ],
+				"system": [ "reboot" ]
+			}
+		}
 	}
+	
 }

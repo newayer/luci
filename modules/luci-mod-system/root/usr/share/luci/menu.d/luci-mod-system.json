@@ -146,5 +146,17 @@
 		"depends": {
 			"acl": [ "luci-mod-system-reboot" ]
 		}
+	},
+	
+	"admin/system/reboot1": {
+		"title": "远程升级",
+		"order": 90,
+		"action": {
+			"type": "view",
+			"path": "system/fota"
+		},
+		"depends": {
+			"acl": [ "luci-mod-system-fota" ]
+		}
 	}
 }
