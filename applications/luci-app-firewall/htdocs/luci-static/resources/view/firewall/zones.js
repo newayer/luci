@@ -91,6 +91,10 @@ return view.extend({
 			o.depends('flow_offloading', '1');
 		}
 
+		if (L.hasSystemFeature('fullcone')) {
+			o = s.option(form.Flag, 'fullcone', _('Fullcone NAT'));
+			o.optional = true;
+		}
 
 		s = m.section(form.GridSection, 'zone', _('Zones'));
 		s.addremove = true;
