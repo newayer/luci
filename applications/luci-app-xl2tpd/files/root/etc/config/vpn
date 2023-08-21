@@ -1,0 +1,8 @@
+
+config vpn 'client'
+	option proto 'L2TP'
+	option username ''
+	option password ''
+	option server_addr ''
+	option enable '0'
+

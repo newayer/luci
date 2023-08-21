@@ -1,0 +1,44 @@
+#!/bin/sh /etc/rc.common
+START=80
+
+stop()
+{
+	/etc/init.d/xl2tpd stop
+}
+
+run_vpn()
+{
+	local enable
+	config_get_bool enable $1 enable
+	if [ $enable == 1 ]; then
+		local username
+		local password
+		local server_addr
+		
+		config_get username $1 username
+		config_get password $1 password
+		config_get server_addr $1 server_addr
+
+		if [ "$server_addr" != "" ] && [ "$username" != "" ] && [ "$password" != "" ]; then
+			/usr/bin/vpn_client.sh conn &
+		else
+			stop
+		fi
+	else
+		/usr/bin/vpn_client.sh disconn
+		stop
+	fi
+}
+
+start()
+{
+	config_load vpn
+	config_foreach run_vpn vpn
+}
+
+restart()
+{
+   stop
+   sleep 1
+   start
+}
