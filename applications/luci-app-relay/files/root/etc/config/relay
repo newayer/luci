@@ -1,0 +1,6 @@
+config relay 'relay_mode'
+       option wan_ip '192.168.100.123'
+       option bss_net '192.168.11.0'
+       option gw '192.168.100.19'
+       option enable '0'
+

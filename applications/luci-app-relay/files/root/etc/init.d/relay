@@ -1,0 +1,40 @@
+#!/bin/sh /etc/rc.common
+START=90
+
+stop()
+{
+	/usr/bin/relay.sh stop
+}
+
+run_relay()
+{
+	local enable
+	config_get_bool enable $1 enable
+	if [ $enable == 1 ]; then
+		local wan_ip
+		local bss_net
+		local gw
+		
+		config_get wan_ip $1 wan_ip
+		config_get bss_net $1 bss_net
+		config_get gw $1 gw
+		if [ "$wan_ip" != "" ] && [ "$bss_net" != "" ] && [ "$gw" != "" ]; then
+			/usr/bin/relay.sh start &
+		fi
+	else
+		/usr/bin/relay.sh stop
+	fi
+}
+
+start()
+{
+	config_load relay
+	config_foreach run_relay relay
+}
+
+restart()
+{
+   stop
+   sleep 1
+   start
+}
