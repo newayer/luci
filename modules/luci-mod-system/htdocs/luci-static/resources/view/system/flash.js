@@ -436,7 +436,7 @@ return view.extend({
 		}
 
 		if (fs.stat('/etc/config/emmc-tool')) {
-			//hide firmware flash button on friendlywrt
+			//hide firmware flash button on MyGateway
 		} else {
 			o = s.option(form.SectionValue, 'actions', form.NamedSection, 'actions', 'actions', _('Flash new firmware image'),
 				has_sysupgrade
